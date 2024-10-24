@@ -1,0 +1,30 @@
+import "dotenv/config";
+
+import express from "express";
+import cors from 'cors'
+
+const app = express();
+
+app.use(express.json());
+const allowedOrigins = ["http://localhost:3000"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+app.get('/', (req, res) => {
+    return res.json({ success: true, message: 'welcome to bj.dev, everything you need to know about me'})
+})
+
+app.listen(7000, () => {
+  console.log("server starting at 7000");
+});
