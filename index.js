@@ -3,6 +3,9 @@ import "dotenv/config";
 import express from "express";
 import cors from 'cors'
 
+import project from "../api/src/routes/project.js"
+import admin from "../api/src/routes/admin.js"
+
 const app = express();
 
 app.use(express.json());
@@ -24,6 +27,10 @@ app.use(
 app.get('/', (req, res) => {
     return res.json({ success: true, message: 'welcome to bj.dev, everything you need to know about me'})
 })
+
+app.use('/api/project', project);
+app.use('/api/admin', admin);
+
 
 app.listen(7000, () => {
   console.log("server starting at 7000");
