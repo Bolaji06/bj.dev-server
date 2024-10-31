@@ -14,13 +14,14 @@ datasource db {
 }
 
 model Project {
-  id              Int @id @default(autoincrement())
-  title           String @unique
-  description     String
-  url             String @unique
-  giturl          String @unique
-  tags            String[]
-  thumbnail       String
+  id                 Int @unique @id @default(autoincrement())
+  title              String @unique
+  description        String
+  about              String
+  url                String @unique
+  githubUrl          String @unique
+  stacks             String[]
+  thumbnail          String
 }
 
 model SocialLink {
