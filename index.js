@@ -3,9 +3,9 @@ import "dotenv/config";
 import express from "express";
 import cors from 'cors'
 
-import project from "../api/src/routes/project.js"
-import admin from "../api/src/routes/admin.js"
-import email from "../api/src/routes/email.js"
+import project from "./src/routes/project.js"
+import admin from "./src/routes/admin.js"
+import email from "./src/routes/email.js"
 
 const app = express();
 
