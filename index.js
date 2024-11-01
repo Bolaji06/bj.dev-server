@@ -5,6 +5,7 @@ import cors from 'cors'
 
 import project from "../api/src/routes/project.js"
 import admin from "../api/src/routes/admin.js"
+import email from "../api/src/routes/email.js"
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/project', project);
 app.use('/api/admin', admin);
+app.use('/api/send-email', email);
 
 
 app.listen(7000, () => {

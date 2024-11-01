@@ -10,7 +10,6 @@ export async function fetchAllProjects(req, res) {
     const projects = await prisma.project.findMany({});
     return res.status(200).json({ success: true, projects });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -39,7 +38,6 @@ export async function getProject(req, res) {
     }
     return res.status(200).json({ success: true, project });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -85,8 +83,6 @@ export async function updateProject(req, res) {
   const projectTitle = req.params.title;
   const body = req.body;
 
-  console.log(projectTitle);
-
   try {
     const project = await prisma.project.findUnique({
       where: {
@@ -110,7 +106,6 @@ export async function updateProject(req, res) {
       .status(201)
       .json({ success: true, message: "updated successfully" });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
