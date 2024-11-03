@@ -13,6 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id                Int @unique @id @default(autoincrement())
+  name              String? @unique
+  email             String @unique
+  password          String
+  bio               String?
+  photo             String?
+  links             String[]
+  projects          Project[]
+  skills            Skill[]
+  experiences       Experience[]
+}
+
 model Project {
   id                 Int @unique @id @default(autoincrement())
   title              String @unique
@@ -20,18 +33,36 @@ model Project {
   about              String
   url                String @unique
   githubUrl          String @unique
-  stacks             String[]
   thumbnail          String
+  userId             Int
+  user               User @relation(fields: [userId], references: [id])
+  stacks             Stack[]
 }
 
-model SocialLink {
-  id      Int @id @default(autoincrement())
-  url     String @unique
+model Skill {
+  id                Int @unique @id @default(autoincrement())
+  name              String
+  userId            Int
+  user              User @relation(fields: [userId], references: [id])
+  stacks            Stack[]
 }
 
-model Contact {
-  id      Int @id @default(autoincrement())
-  name    String
-  email   String
-  message String
+model Experience {
+  id                Int @unique @id @default(autoincrement())
+  company           String
+  role              String
+  startDate         DateTime
+  endDate           DateTime?
+  description       String
+  userId            Int
+  user              User @relation(fields: [userId], references: [id])
 }
+
+model Stack {
+  id                Int @unique @id @default(autoincrement())
+  name              String @unique
+  projects          Project[]
+  skills            Skill[]
+}
+
+

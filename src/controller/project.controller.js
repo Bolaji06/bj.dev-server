@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import prisma from "../lib/prisma.js";
 
 /**
@@ -45,12 +46,18 @@ export async function getProject(req, res) {
 }
 
 /**
+ * project typedef
+ * @typedef {import("@prisma/client").Project} Project
+ */
+
+/**
  *
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  * @returns - { success: boolean, message: status }
  */
 export async function addProject(req, res) {
+  /**@type {Project} */
   const { title, description, githubUrl, url, stacks, thumbnail, about } =
     req.body;
 

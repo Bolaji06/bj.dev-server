@@ -1,11 +1,14 @@
 import "dotenv/config";
 
 import express from "express";
-import cors from 'cors'
+import cors from "cors";
+import cookieSession from "cookie-session";
 
-import project from "./src/routes/project.js"
-import admin from "./src/routes/admin.js"
-import email from "./src/routes/email.js"
+import project from "./src/routes/project.js";
+import admin from "./src/routes/admin.js";
+import email from "./src/routes/email.js";
+import auth from "./src/routes/auth.js";
+import user from "./src/routes/user.js"
 
 const app = express();
 
@@ -25,14 +28,28 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-    return res.json({ success: true, message: 'welcome to bj.dev, everything you need to know about me'})
-})
+app.use(
+  cookieSession({
+    name: "bj.dev-session",
+    secret: process.env.COOKIE_SECRET,
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: false, // change this to true in production
+    signed: true,
+  })
+);
 
-app.use('/api/project', project);
-app.use('/api/admin', admin);
-app.use('/api/send-email', email);
+app.get("/", (req, res) => {
+  return res.json({
+    success: true,
+    message: "welcome to bj.dev, everything you need to know about me",
+  });
+});
 
+app.use("/api/project", project);
+app.use("/api/admin", admin);
+app.use("/api/send-email", email);
+app.use("/api/auth", auth);
+app.use("/api/user", user)
 
 app.listen(7000, () => {
   console.log("server starting at 7000");
