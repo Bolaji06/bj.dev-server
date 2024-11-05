@@ -1,5 +1,5 @@
-import prisma from "../lib/prisma";
-import findUser from "../utils/findUser";
+import prisma from "../lib/prisma.js";
+import findUser from "../utils/findUser.js";
 
 /**
  *
