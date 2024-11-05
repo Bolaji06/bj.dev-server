@@ -36,7 +36,7 @@ model Project {
   thumbnail          String
   userId             Int
   user               User @relation(fields: [userId], references: [id])
-  stacks             Stack[]
+  stacks             String[]
 }
 
 model Skill {
@@ -49,6 +49,7 @@ model Skill {
 
 model Experience {
   id                Int @unique @id @default(autoincrement())
+  title             String
   company           String
   role              String
   startDate         DateTime
@@ -61,7 +62,6 @@ model Experience {
 model Stack {
   id                Int @unique @id @default(autoincrement())
   name              String @unique
-  projects          Project[]
   skills            Skill[]
 }
 
