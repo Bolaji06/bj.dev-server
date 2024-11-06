@@ -22,7 +22,6 @@ model User {
   photo             String?
   links             String[]
   projects          Project[]
-  skills            Skill[]
   experiences       Experience[]
 }
 
@@ -36,19 +35,12 @@ model Project {
   thumbnail          String
   userId             Int
   user               User @relation(fields: [userId], references: [id])
-  stacks             Stack[]
-}
-
-model Skill {
-  id                Int @unique @id @default(autoincrement())
-  name              String
-  userId            Int
-  user              User @relation(fields: [userId], references: [id])
-  stacks            Stack[]
+  stacks             String[]
 }
 
 model Experience {
   id                Int @unique @id @default(autoincrement())
+  title             String
   company           String
   role              String
   startDate         DateTime
@@ -61,8 +53,6 @@ model Experience {
 model Stack {
   id                Int @unique @id @default(autoincrement())
   name              String @unique
-  projects          Project[]
-  skills            Skill[]
 }
 
 

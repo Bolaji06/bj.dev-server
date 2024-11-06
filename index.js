@@ -8,7 +8,8 @@ import project from "./src/routes/project.js";
 import admin from "./src/routes/admin.js";
 import email from "./src/routes/email.js";
 import auth from "./src/routes/auth.js";
-import user from "./src/routes/user.js"
+import user from "./src/routes/user.js";
+import experience from "./src/routes/experience.js";
 
 const app = express();
 
@@ -49,7 +50,8 @@ app.use("/api/project", project);
 app.use("/api/admin", admin);
 app.use("/api/send-email", email);
 app.use("/api/auth", auth);
-app.use("/api/user", user)
+app.use("/api/user", user);
+app.use("/api/experience", experience);
 
 app.listen(7000, () => {
   console.log("server starting at 7000");

@@ -4,6 +4,6 @@ import { authorization } from "../utils/authorization.js";
 
 const router = express.Router();
 
-router.get('/', authorization, getUsers)
+router.get('/', getUsers)
 
 export default router;
