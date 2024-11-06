@@ -1,16 +1,72 @@
-
 import prisma from "../lib/prisma.js";
 
-export async function getUsers(req, res){
-    const user = req.user
+export async function getUsers(req, res) {
+  try {
+    const users = await prisma.user.findMany({});
+    return res.json({ success: true, users });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "internal server error" });
+  }
+}
 
-    console.log(user);
-
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ */
+export async function getUser(req, res){
+    const paramId = req.params.id
     try{
-        const users = await prisma.user.findMany({})
-        return res.json({ success: true, users })
+        const user = await prisma.user.findUnique({
+            where: {
+                id: parseInt(paramId)
+            }
+        });
+        if(!user){
+            return res.status(404).json({ success: false, message: 'user not found' });
+        }
+        return res.status(200).json({ success: true, user: { ...user, password: null } })
 
     }catch(error){
-        return res.status(500).json({ success: false, message: 'internal server error' });
+        res.status(500).json({ success: false, message: 'internal server error' });
     }
 }
+
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+export async function updateUser(req, res) {
+  const id = req.user.id;
+  const body = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "user not found" });
+    }
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        ...body,
+      },
+    });
+    return res.status(200).json({ success: true, message: "user updated" })
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "internal server error" });
+  }
+}
+
