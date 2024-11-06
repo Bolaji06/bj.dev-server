@@ -8,10 +8,11 @@ import findUser from "../utils/findUser.js";
  */
 export async function getExperience(req, res) {
   try {
-    const experience = await prisma.experience({});
-    return res.status(200).json({ success: false, experience });
+    const experience = await prisma.experience.findMany({});
+    return res.status(200).json({ success: true, experience });
   } catch (error) {
-    return res.status({ success: false, message: "internal server error" });
+    console.log(error)
+    return res.status(500).json({ success: false, message: "internal server error" });
   }
 }
 
@@ -23,24 +24,28 @@ export async function getExperience(req, res) {
  */
 export async function addExperience(req, res) {
   /**@type {import("@prisma/client").Experience} */
-  const { company, role, description, startDate, endDate } = req.body;
+  const { title, company, role, description, startDate, endDate } = req.body;
   const id = req.user.id;
+
+  console.log(id);
 
   try {
     await findUser(req, res, id);
 
     const experience = await prisma.experience.create({
       data: {
+        title,
         company,
         role,
         startDate,
         endDate,
         description,
-        userId: user.id,
+        userId: id,
       },
     });
     return res.status(200).json({ success: true, experience });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -65,9 +70,17 @@ export async function updateExperience(req, res) {
 
   try {
     await findUser(req, res, id);
-    await prisma.experience.update({
+    const experience = await prisma.experience.findFirst({
       where: {
         title,
+      }
+    });
+    if(!experience){
+     return res.status(494).json({ success: false, message: 'experience not found' });
+    }
+    await prisma.experience.update({
+      where: {
+        id: experience.id
       },
       data: {
         ...body,
@@ -77,6 +90,7 @@ export async function updateExperience(req, res) {
       .status(200)
       .json({ success: true, message: "experience updated" });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -94,9 +108,14 @@ export async function deleteExperience(req, res) {
 
   try {
     findUser(req, res, id);
+    const experience = await prisma.experience.findFirst({
+      where: {
+        title
+      }
+    })
     await prisma.experience.delete({
       where: {
-        title,
+        id: experience.id
       },
     });
     return res

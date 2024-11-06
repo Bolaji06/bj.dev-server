@@ -20,7 +20,7 @@ export async function authorization(req, res, next) {
   jwt.verify(headerToken, process.env.JWT_TOKEN, (err, decoded) => {
     if (err) {
       console.log(err.message);
-      return res.status(403).json({ success: false, message: "Invalid token" });
+      return res.status(403).json({ success: false, message: err.message });
     }
     req.user = decoded;
     next();

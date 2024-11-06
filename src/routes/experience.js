@@ -5,8 +5,8 @@ import { authorization } from "../utils/authorization.js"
 
 const router = express.Router();
 
-router.post('/', authorization, addExperience);
 router.get('/', getExperience);
+router.post('/', authorization, addExperience);
 router.patch('/:title', authorization, updateExperience);
 router.delete('/:title', authorization, deleteExperience);
 

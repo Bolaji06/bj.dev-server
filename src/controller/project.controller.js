@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../lib/prisma.js";
+import findUser from "../utils/findUser.js";
 
 /**
  *
@@ -8,13 +9,10 @@ import prisma from "../lib/prisma.js";
  */
 export async function fetchAllProjects(req, res) {
   try {
-    const projects = await prisma.project.findMany({
-      include: {
-        stacks: true,
-      },
-    });
+    const projects = await prisma.project.findMany({});
     return res.status(200).json({ success: true, projects });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -27,16 +25,13 @@ export async function fetchAllProjects(req, res) {
  * @param {import("express").Response} res
  * @returns - { success: boolean, message: status }
  */
-export async function getProject(req, res) {
+export async function getProject(req, res){
   const projectTitle = req.params.title;
 
   try {
     const project = await prisma.project.findUnique({
       where: {
         title: projectTitle,
-      },
-      include: {
-        stacks: true,
       },
     });
     if (!project) {
@@ -113,19 +108,9 @@ export async function updateProject(req, res) {
   const id = req.user.id;
 
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+   await findUser(req, res, id)
 
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "user not found" });
-    }
-
-    const project = await prisma.project.findUnique({
+    const project = await prisma.project.findFirst({
       where: {
         title: projectTitle,
       },
@@ -137,7 +122,7 @@ export async function updateProject(req, res) {
     }
     await prisma.project.update({
       where: {
-        title: project.title,
+        id: project.id,
       },
       data: {
         ...body,
@@ -164,14 +149,7 @@ export async function deleteProject(req, res) {
   const id = req.user.id;
 
   try {
-    const user = await prisma.user.findUnique({
-      where: id,
-    });
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "user not found" });
-    }
+    await findUser(req, res, id);
 
     const project = await prisma.project.findUnique({
       where: {
@@ -180,7 +158,7 @@ export async function deleteProject(req, res) {
     });
 
     if (!project) {
-      return res.status(404).json({ success: false, message: "not found" });
+      return res.status(404).json({ success: false, message: "project not found" });
     }
 
     await prisma.project.delete({

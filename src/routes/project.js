@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', fetchAllProjects);
 router.get("/:title", getProject);
 router.post('/', authorization, addProject);
-router.patch("/:title", updateProject);
-router.delete("/:title", deleteProject);
+router.patch("/:title", authorization, updateProject);
+router.delete("/:title", authorization, deleteProject);
 
 export default router;
