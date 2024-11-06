@@ -11,8 +11,9 @@ export async function getExperience(req, res) {
     const experience = await prisma.experience.findMany({});
     return res.status(200).json({ success: true, experience });
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ success: false, message: "internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "internal server error" });
   }
 }
 
@@ -26,8 +27,6 @@ export async function addExperience(req, res) {
   /**@type {import("@prisma/client").Experience} */
   const { title, company, role, description, startDate, endDate } = req.body;
   const id = req.user.id;
-
-  console.log(id);
 
   try {
     await findUser(req, res, id);
@@ -45,7 +44,6 @@ export async function addExperience(req, res) {
     });
     return res.status(200).json({ success: true, experience });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -73,14 +71,16 @@ export async function updateExperience(req, res) {
     const experience = await prisma.experience.findFirst({
       where: {
         title,
-      }
+      },
     });
-    if(!experience){
-     return res.status(494).json({ success: false, message: 'experience not found' });
+    if (!experience) {
+      return res
+        .status(494)
+        .json({ success: false, message: "experience not found" });
     }
     await prisma.experience.update({
       where: {
-        id: experience.id
+        id: experience.id,
       },
       data: {
         ...body,
@@ -90,7 +90,6 @@ export async function updateExperience(req, res) {
       .status(200)
       .json({ success: true, message: "experience updated" });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -110,12 +109,12 @@ export async function deleteExperience(req, res) {
     findUser(req, res, id);
     const experience = await prisma.experience.findFirst({
       where: {
-        title
-      }
-    })
+        title,
+      },
+    });
     await prisma.experience.delete({
       where: {
-        id: experience.id
+        id: experience.id,
       },
     });
     return res
