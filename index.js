@@ -34,10 +34,11 @@ app.use(
     name: "bj.dev-session",
     secret: process.env.COOKIE_SECRET,
     maxAge: 24 * 60 * 60 * 1000,
-    secure: false, // change this to true in production
+    secure: true, // change this to true in production
     signed: true,
   })
 );
+
 
 app.get("/", (req, res) => {
   return res.json({
