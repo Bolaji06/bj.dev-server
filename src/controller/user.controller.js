@@ -12,26 +12,29 @@ export async function getUsers(req, res) {
 }
 
 /**
- * 
- * @param {import("express").Request} req 
- * @param {import("express").Response} res 
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
  */
-export async function getUser(req, res){
-    const paramId = req.params.id
-    try{
-        const user = await prisma.user.findUnique({
-            where: {
-                id: parseInt(paramId)
-            }
-        });
-        if(!user){
-            return res.status(404).json({ success: false, message: 'user not found' });
-        }
-        return res.status(200).json({ success: true, user: { ...user, password: null } })
-
-    }catch(error){
-        res.status(500).json({ success: false, message: 'internal server error' });
+export async function getUser(req, res) {
+  const paramId = req.params.id;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(paramId),
+      },
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "user not found" });
     }
+    return res
+      .status(200)
+      .json({ success: true, user: { ...user, password: null } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
 }
 
 /**
@@ -62,11 +65,11 @@ export async function updateUser(req, res) {
         ...body,
       },
     });
-    return res.status(200).json({ success: true, message: "user updated" })
+    return res.status(200).json({ success: true, message: "user updated" });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
   }
 }
-

@@ -42,8 +42,9 @@ export async function addExperience(req, res) {
         userId: id,
       },
     });
-    return res.status(200).json({ success: true, experience });
+    return res.status(200).json({ success: true, message: "Experience added" });
   } catch (error) {
+    
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
