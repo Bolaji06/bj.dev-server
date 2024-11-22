@@ -12,7 +12,6 @@ export async function fetchAllProjects(req, res) {
     const projects = await prisma.project.findMany({});
     return res.status(200).json({ success: true, projects });
   } catch (error) {
-    
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -25,7 +24,7 @@ export async function fetchAllProjects(req, res) {
  * @param {import("express").Response} res
  * @returns - { success: boolean, message: status }
  */
-export async function getProject(req, res){
+export async function getProject(req, res) {
   const projectTitle = req.params.title;
 
   try {
@@ -91,6 +90,7 @@ export async function addProject(req, res) {
     });
     return res.status(201).json({ success: true, message: "project created" });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
@@ -108,7 +108,7 @@ export async function updateProject(req, res) {
   const id = req.user.id;
 
   try {
-   await findUser(req, res, id)
+    await findUser(req, res, id);
 
     const project = await prisma.project.findFirst({
       where: {
@@ -158,7 +158,9 @@ export async function deleteProject(req, res) {
     });
 
     if (!project) {
-      return res.status(404).json({ success: false, message: "project not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "project not found" });
     }
 
     await prisma.project.delete({

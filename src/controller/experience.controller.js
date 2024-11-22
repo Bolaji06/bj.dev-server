@@ -6,7 +6,7 @@ import findUser from "../utils/findUser.js";
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
-export async function getExperience(req, res) {
+export async function getExperiences(req, res) {
   try {
     const experience = await prisma.experience.findMany({});
     return res.status(200).json({ success: true, experience });
@@ -14,6 +14,34 @@ export async function getExperience(req, res) {
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
+  }
+}
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @returns 
+ */
+export async function getExperience(req, res){
+  const { title } = req.params
+
+  if (!title){
+    return res.status(402).json({ success: false, message: "title params is missing" });
+  }
+  try {
+    const experience = await prisma.experience.findFirst({
+      where: {
+        title
+      },
+    });
+    if(!experience){
+      return res.status(404).json({ success: false, message: "experience not found" });
+    }
+    return res.status(200).json({ success: true, experience });
+
+  }catch(error){
+    return res.status(500).json({ success: false, message: 'internal server error' });
   }
 }
 
