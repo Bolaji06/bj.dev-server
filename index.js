@@ -15,7 +15,7 @@ import profile from "./src/routes/profile.js";
 const app = express();
 
 app.use(express.json());
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000", "https://bjdev.vercel.app"];
 
 app.use(
   cors({
