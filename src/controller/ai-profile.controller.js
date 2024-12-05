@@ -50,10 +50,7 @@ export default async function myProfile(req, res) {
       embeddingModel
     );
 
-    const retriever = vectorStore.asRetriever({
-      k: 2,
-      searchType: "mmr",
-    });
+    const retriever = vectorStore.asRetriever();
     const prompt = ChatPromptTemplate.fromTemplate(
       `You are an assistant for question-answering tasks related to Bolaji Bolajoko profile information. Use the following pieces of retrieved context to answer the question. 
         If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
