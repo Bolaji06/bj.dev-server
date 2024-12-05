@@ -9,7 +9,7 @@ import { authorization } from "../utils/authorization.js";
 const router = express.Router();
 
 router.get("/", getUsers);
-router.patch("/", authorization, updateUser);
 router.get("/:id", getUser);
+router.patch("/:id", authorization, updateUser);
 
 export default router;
