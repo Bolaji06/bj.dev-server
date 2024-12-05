@@ -11,6 +11,7 @@ import auth from "./src/routes/auth.js";
 import user from "./src/routes/user.js";
 import experience from "./src/routes/experience.js";
 import chat from "./src/routes/chat.js"
+import profile from "./src/routes/profile.js";
 
 const app = express();
 
@@ -54,7 +55,8 @@ app.use("/api/send-email", email);
 app.use("/api/auth", auth);
 app.use("/api/user", user);
 app.use("/api/experience", experience);
-app.use("/api/chat", chat)
+app.use("/api/chat", chat);
+app.use("/api/profile", profile)
 
 app.listen(7000, () => {
   console.log("server starting at 7000");

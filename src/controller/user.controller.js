@@ -18,6 +18,7 @@ export async function getUsers(req, res) {
  */
 export async function getUser(req, res) {
   const paramId = req.params.id;
+
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -43,13 +44,13 @@ export async function getUser(req, res) {
  * @param {import("express").Response} res
  */
 export async function updateUser(req, res) {
-  const id = req.user.id;
+  const id = req.params.id
   const body = req.body;
 
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id,
+        id: parseInt(id)
       },
     });
     if (!user) {
