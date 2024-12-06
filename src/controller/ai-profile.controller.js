@@ -64,8 +64,8 @@ export default async function myProfile(req, res) {
       llm,
       prompt,
     });
-    // retrieve "What are his experience?" from the vector store
-    const retrievedDocs = await retriever.invoke("What are his experience?");
+    // retrieve the query (question) from the vector store
+    const retrievedDocs = await retriever.invoke(query);
 
     // generate message from the prompts
     const message = await ragChain.invoke({
