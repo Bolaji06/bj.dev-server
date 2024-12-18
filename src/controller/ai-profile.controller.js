@@ -54,7 +54,7 @@ export default async function myProfile(req, res) {
     const prompt = ChatPromptTemplate.fromTemplate(
       `You are an assistant for question-answering tasks related to Bolaji Bolajoko profile information. Use the following pieces of retrieved context to answer the question. 
         If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
-  
+        
         Question: {question}
         Context: {context}`
     );
