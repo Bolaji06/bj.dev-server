@@ -55,4 +55,15 @@ model Stack {
   name              String @unique
 }
 
+model BugBuster {
+  id                String @unique @id @default(uuid())
+  title             String
+  backstory         String?
+  solution          String
+  tags              String[]
+  createdAt         DateTime @default(now())
+  updateAt          DateTime @updatedAt
+
+}
+
 
