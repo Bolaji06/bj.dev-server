@@ -105,7 +105,7 @@ export async function addBug(req, res) {
         title,
         backstory,
         solution,
-        tags,
+        tags: JSON.parse(tags),
       },
     });
     return res.status(201).json({ success: true, newBug });
@@ -146,6 +146,7 @@ export async function updateBug(req, res) {
       },
       data: {
         ...data,
+        tags: JSON.parse(data.tags),
       },
     });
     return res.status(200).json({ success: true, updatedBug });
