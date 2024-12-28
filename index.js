@@ -56,7 +56,7 @@ app.use("/api/auth", auth);
 app.use("/api/user", user);
 app.use("/api/experience", experience);
 app.use("/api/profile", profile);
-app.use("/api/bug", bug);
+app.use("/api/buster", bug);
 
 app.listen(7000, () => {
   console.log("server starting at 7000");
