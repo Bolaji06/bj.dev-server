@@ -46,7 +46,7 @@ export async function getUser(req, res) {
  */
 export async function updateUser(req, res) {
   const id = req.params.id;
-  const { body, password } = req.body;
+  const body = req.body;
 
   try {
     const user = await prisma.user.findUnique({
@@ -59,14 +59,12 @@ export async function updateUser(req, res) {
         .status(404)
         .json({ success: false, message: "user not found" });
     }
-    const hashPassword = await bcrypt.hash(password, 10);
     await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
         ...body,
-        password: hashPassword,
       },
     });
     return res.status(200).json({ success: true, message: "user updated" });
