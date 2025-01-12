@@ -8,7 +8,7 @@ import embeddingModel from "../lib/embeddingModel.js";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import model from "../lib/model.js";
-//import { Document } from "@langchain/core/documents";
+
 /**
  *
  * @param {import("express").Request} req
@@ -21,7 +21,7 @@ export default async function myProfile(req, res) {
     process.cwd(),
     "public",
     "assets",
-    "profile.pdf"
+    "resume.pdf"
   );
 
   const buffer = await fs.readFile(profilePdfPath);
@@ -80,14 +80,16 @@ export default async function myProfile(req, res) {
     // retrieve the query (question) from the vector store
     const retrievedDocs = await retriever.invoke(query);
 
-    // generate message from the prompts
+    //generate message from the prompts
     const message = await ragChain.invoke({
-      question: query, // "What's are his past experience?",
+      question: query,
       context: retrievedDocs,
     });
 
     return res.status(200).json({ success: true, message: message });
   } catch (error) {
-    res.status(500).json({ success: false, message: "internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "internal server error" });
   }
 }
